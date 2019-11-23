@@ -23,3 +23,14 @@ class RegisterForm(FlaskForm):
     password = PasswordField('Password', validators=[DataRequired(), Length(8, 128)])
     reinputpasswd = PasswordField('RePassword', validators=[DataRequired(), Length(8, 128)])  # 未添加验证
     submit = SubmitField('Register')
+
+
+class HomeForm(FlaskForm):
+    # 问题标题
+    title = StringField('问题标题', validators=[DataRequired()])
+    # 问题描述
+    description = StringField('问题描述', validators=[DataRequired()])
+    # 发布问题按钮
+    submit = SubmitField('提交')
+
+

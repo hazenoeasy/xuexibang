@@ -1,9 +1,15 @@
-# -*- coding: utf-8 -*-
+#-*- coding: utf-8 -*-
+import sys
+defaultencoding = 'utf-8'
+if sys.getdefaultencoding() != defaultencoding:
+    reload(sys)
+    sys.setdefaultencoding(defaultencoding)
+
 from flask import flash, redirect, url_for, render_template
 
 from xuexibang import app  # , db
-from xuexibang.main.forms import LoginForm, RegisterForm
-
+from xuexibang.main.forms import LoginForm, RegisterForm, HomeForm
+# app.config['SECRET_KEY'] = '123456'
 
 # 对于URL http://localhost:5000/
 @app.route('/')
@@ -13,7 +19,12 @@ def hello():
 
 @app.route('/home')
 def home():
-    return render_template('home.html', data=['some', 'data', 'from', 'the', 'back', 'end'])
+    form = HomeForm()
+    if form.validate_on_submit():
+        title=form.title.data
+        description=form.description.data
+        return redirect(url_for('home'))
+    return render_template('home.html', data=['data'],form=form)
 
 
 @app.route('/register')
