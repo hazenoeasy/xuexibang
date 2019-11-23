@@ -1,10 +1,57 @@
 {% extends 'base.html' %}
 {% from 'macros.html' import func %}
 
+{% block styles %}
+{#    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css')}}">#}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='home.css')}}">
+{% endblock %}
+
 {% block content %}
-<h1> 同学们的问题如下 </h1>
-<ul>
-    <li><a href="{{ url_for('myquestion') }}">看看我提的问题</a> </li>
-    <li>Macro: {{ func(amount=0) }}</li>
-</ul>
+{#<h1> 同学们的问题如下 </h1>#}
+{#<ul>#}
+{#    <li><a href="{{ url_for('myquestion') }}">看看我提的问题</a> </li>#}
+{#    <li>Macro: {{ func(amount=0) }}</li>#}
+{#</ul>#}
+    <div class="leftbar">
+
+        <div class="submit_ques">
+            <form method="post">
+				<!-- 表单域 -->
+                <div class="form_container">
+                    {{ form.csrf_token }}
+                    <div class="form_group">
+                        {{ form.title.label }}<br>
+                        {{ form.title(class='form_control' )}}<br><!-- 问题标题 -->
+                    </div>
+                    <div class="form_group">
+                        {{ form.description.label }}
+                        {{ form.description(class='form_control')}}<br> <!-- 问题描述 -->
+                    </div>
+                    <div class="form_group">
+                        {{ form.submit(class='form_control btn') }}<br>  <!-- 发布问题按钮 -->
+                    </div>
+                </div>
+			</form>
+        </div>
+
+			<!-- 评论显示区 -->
+        <div class="ques_container">
+            {% for context in contexts %}
+                <div class="ques">
+                    <a href="#">{{ context.outlines }}</a>
+                </div>
+            {% endfor %}
+
+			</div>
+
+		</div>
+		<div class="rightbar">
+			<ul>
+				<li><a href="#">1</a></li>
+				<li><a href="#">2</a></li>
+				<li><a href="#">3</a></li>
+				<li><a href="#">4</a></li>
+				<li><a href="#">5</a></li>
+			</ul>
+		</div>
 {% endblock %}
