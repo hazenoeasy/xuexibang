@@ -6,24 +6,23 @@
 # 本模块包含：
 # 不对外可见的数据库操作函数
 from database.models.model import UserInfo
+from database.models.model import Follow
 
 
 # 根据用户名查找用户
-def get_user_by_name(name, session):
-    user_info = session.query(UserInfo).filter_by(name=name["name"]).first()
+def get_user_by_name(user, session):
+    user_info = session.query(UserInfo).filter_by(name=user["name"]).first()
     res = {}
-    user_list = []
     if isinstance(user_info, UserInfo):
-        user_list.append(user_info.to_dict())
         res["success"] = True
         res["status"] = 0
-        res["message"] = "User fond successfully"
-        res["content"] = user_list
+        res["message"] = "User: %s fond successfully" % user["name"]
+        res["content"] = user_info.to_dict()
     else:
         res["success"] = True
         res["status"] = 1000
-        res["message"] = "User not fond"
-        res["content"] = " "
+        res["message"] = "User: %s not fond" % user["name"]
+        res["content"] = None
 
     return res
 
@@ -36,16 +35,20 @@ def insert_user(user, session):
     if isinstance(user_info, UserInfo):
         res["success"] = False
         res["status"] = 1002
-        res["message"] = "User already exits!!!"
-        res["content"] = " "
+        res["message"] = "User: %s already exits!!!" % user["name"]
+        res["content"] = None
     else:
-        user_info = UserInfo(name=user["name"], password=user["password"], email=user["email"])
+        user_info = UserInfo()
+        user_info.name = user.get("name")
+        user_info.password = user.get("password")
+        user_info.email = user.get("email")
+        user_info.admin = user.get("admin")
         session.add(user_info)
         session.commit()
         res["success"] = True
         res["status"] = 0
-        res["message"] = "User insert successfully"
-        res["content"] = " "
+        res["message"] = "User: %s insert successfully" % user["name"]
+        res["content"] = None
     return res
 
 
@@ -59,7 +62,7 @@ def delete_user_by_name(name, session):
     if not isinstance(user_info, UserInfo):
         res["success"] = False
         res["status"] = 1000
-        res["message"] = "User not fond"
+        res["message"] = "User: %s not fond" % name["name"]
         res["content"] = " "
 
     else:
@@ -67,7 +70,7 @@ def delete_user_by_name(name, session):
         session.commit()
         res["success"] = True
         res["status"] = 0
-        res["message"] = "User deleted successfully!"
+        res["message"] = "User: %s deleted successfully!" % name["name"]
         res["content"] = " "
 
     return res
@@ -83,14 +86,39 @@ def update_user_pwd(user, session):
     if not isinstance(user_info, UserInfo):
         res["success"] = False
         res["status"] = 1000
-        res["message"] = "User not fond"
-        res["content"] = " "
+        res["message"] = "User: %s not fond" % user["name"]
+        res["content"] = None
     else:
         user_info.password = user["password"]
         res["success"] = True
         res["status"] = 0
-        res["message"] = "User update successfully!!"
+        res["message"] = "User: %s password update successfully!!" % user["name"]
         res["content"] = user_info.to_dict()
         session.commit()
 
     return res
+
+
+def get_user_follow(user, session):
+    res = {}
+    user_info = session.query(UserInfo).filter_by(name=user["name"]).first()
+    follow_list = []
+    # 若用户不存在
+    if not isinstance(user_info, UserInfo):
+        res["success"] = False
+        res["status"] = 1000
+        res["message"] = "User: %s not fond" % user["name"]
+        res["content"] = None
+    else:
+        follow_info_list = session.query(Follow).filter_by(uid=user_info.uid).all()
+        for follow_info in follow_info_list:
+            question_info=session.query(UserInfo).filter_by(quid=follow_info.quid).first()
+            follow_list.append(question_info.to_dict())
+
+        res["success"] = True
+        res["status"] = 0
+        res["message"] = "User: %s's follow fond" % user["name"]
+        res["content"] = follow_list
+
+    return res
+

@@ -14,9 +14,9 @@
   "mysql_test": {
     "db_type": "mysql",
     "host": "localhost",
-    "db": "xxbdb",
+    "db": "test",
     "port": "3306",
-    "username": "webdb",
-    "pwd": "webdata"
+    "username": "root",
+    "pwd": "wang130526"
   }
 }

@@ -4,4 +4,4 @@
 *.ppt
 *.pdf
 *.docx
-
+.env

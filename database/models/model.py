@@ -4,7 +4,7 @@
 # filename: model.py
 # 本模块包含：
 # ORM模型
-from sqlalchemy import Column, Integer, String, DateTime
+from sqlalchemy import Column, Integer, String, DateTime,ForeignKey,Boolean
 from sqlalchemy.ext.declarative import declarative_base
 
 
@@ -44,33 +44,34 @@ class UserInfo(BaseModel, ModelProcessor):
     __tablename__ = "UserInfo"
 
     uid = Column(Integer, primary_key=True)
-    name = Column(String(32), index=False, nullable=False)
-    password = Column(String(32), index=False, nullable=False)
-    email = Column(String(32), index=False, nullable=False)
+    name = Column(String(32), nullable=False,unique=True)
+    password = Column(String(32), nullable=False)
+    email = Column(String(32), nullable=False,unique=True)
+    admin=Column(Boolean,nullable=True)
 
 
 class QuestionInfo(BaseModel, ModelProcessor):
     __tablename__ = "QuestionInfo"
 
     quid = Column(Integer, primary_key=True)
-    qucontent = Column(String(32), index=False, nullable=False)
-    qutime = Column(DateTime, index=False, nullable=False)
-    uid = Column(Integer, index=False, nullable=False)
-    ansid = Column(Integer, index=False, nullable=True)
+    qucontent = Column(String(32), nullable=False)
+    qutime = Column(DateTime, nullable=False)
+    uid = Column(Integer, ForeignKey(UserInfo.uid) , nullable=False)
+    ansid = Column(Integer, nullable=True)
 
 
 class AnswerInfo(BaseModel, ModelProcessor):
     __tablename__ = "AnswerInfo"
 
     ansid = Column(Integer, primary_key=True)
-    anscontent = Column(String(32), index=False, nullable=False)
-    anstime = Column(DateTime, index=False, nullable=False)
-    uid = Column(Integer, index=False, nullable=False)
-    quid = Column(Integer, index=False, nullable=False)
+    anscontent = Column(String(32), nullable=False)
+    anstime = Column(DateTime, nullable=False)
+    uid = Column(Integer, ForeignKey(UserInfo.uid),nullable=False)
+    quid = Column(Integer, ForeignKey(QuestionInfo.uid), nullable=False)
 
 
 class Follow(BaseModel, ModelProcessor):
     __tablename__ = "Follow"
 
-    uid = Column(Integer, index=False, nullable=False, primary_key=True)
-    quid = Column(Integer, index=False, nullable=False, primary_key=True)
+    uid = Column(Integer, ForeignKey(UserInfo.uid) , nullable=False, primary_key=True)
+    quid = Column(Integer, ForeignKey(QuestionInfo.uid), nullable=False, primary_key=True)

@@ -22,9 +22,8 @@ with open(current_path + "../config/db_config.json") as f:
         res = json.loads(config)["mysql_test"]
     else:
         res = json.loads(config)["mysql"]
-s = "%s+pymysql://%s:%s@%s:%s/%s" % (
+s = "%s://%s:%s@%s:%s/%s" % (
     res['db_type'], res['username'], res['pwd'], res['host'], res['port'], res['db'])
-print s
 _engine = create_engine(s, poolclass=NullPool, echo=False)
 
 
