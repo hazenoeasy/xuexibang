@@ -6,13 +6,35 @@ where students can upload tough problems and
 in meanwhile share their answers in other puzzles. 
 
 # Contents
+- [Develop Log](#develop-log)
+- [Production](#production)
 - [Abstract](#abstract)
 - [User Requirements Analysis](#user-requirements-analysis)
 - [Interaction Interfaces](#interaction-interfaces)
 - [Allocation](#allocation)
-- [Develop Log](#develop-log)
-- [Production](#production)
 
+
+## Develop Log
+11/7 <br>https://blog.csdn.net/weixin_44617992/article/details/102926000
+
+
+11/9 <br>https://blog.csdn.net/weixin_44617992/article/details/102983602
+
+
+11/19<br>https://blog.csdn.net/weixin_44617992/article/details/103015088
+
+
+11/23<br>https://blog.csdn.net/weixin_44617992/article/details/103216375
+
+
+12/01<br>https://blog.csdn.net/weixin_44617992/article/details/103356476
+
+
+12/05<br>https://blog.csdn.net/weixin_44617992/article/details/103412897
+
+12/10<br>https://blog.csdn.net/weixin_44617992/article/details/1034398361
+## Production
+http://101.132.184.228:5000/
 ## Abstract 
 ### 产品概要说明
 学习帮是一款为高校学生提供互助学习平台的软件。用户可利用该软件发布问题，回答问题，关注问题，通过网络互助的方式解决学习中的问题。
@@ -100,27 +122,6 @@ in meanwhile share their answers in other puzzles.
 #### 已完成
 #### 后续任务
 
-## Develop Log
-11/7 <br>https://blog.csdn.net/weixin_44617992/article/details/102926000
-
-
-11/9 <br>https://blog.csdn.net/weixin_44617992/article/details/102983602
-
-
-11/19<br>https://blog.csdn.net/weixin_44617992/article/details/103015088
-
-
-11/23<br>https://blog.csdn.net/weixin_44617992/article/details/103216375
-
-
-12/01<br>https://blog.csdn.net/weixin_44617992/article/details/103356476
-
-
-12/05<br>https://blog.csdn.net/weixin_44617992/article/details/103412897
-
-12/10<br>https://blog.csdn.net/weixin_44617992/article/details/1034398361
-## Production
-http://101.132.184.228:5000/
 
 ### Home Page
 
