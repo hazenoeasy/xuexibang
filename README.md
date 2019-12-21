@@ -36,7 +36,7 @@ in meanwhile share their answers in other puzzles.
 
 12/19<br>https://blog.csdn.net/weixin_44617992/article/details/103641311
 ## Production
-http://101.132.184.228:5000/
+www.zzzyh.top:5000
 ## Abstract 
 ### 产品概要说明
 学习帮是一款为高校学生提供互助学习平台的软件。用户可利用该软件发布问题，回答问题，关注问题，通过网络互助的方式解决学习中的问题。
