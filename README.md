@@ -1,4 +1,4 @@
-# Xuexibang
+# Xuexibang 3.0.0
 
 ## This is homepage for project Xuexibang. https://hazenoeasy.github.io/xuexibang/
 The project is aimed to offer a convenient online forum 
@@ -121,8 +121,3 @@ http://101.132.184.228:5000/
 前端实现(home.html, qna.html, myquestion.html)
 #### 已完成
 #### 后续任务
-
-
-### Home Page
-
-![](https://github.com/hazenoeasy/xuexibang/blob/develop/doc/12.05.jpg)
