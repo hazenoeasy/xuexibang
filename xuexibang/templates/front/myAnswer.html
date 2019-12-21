@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block title %}我做出的回答{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>我的回答</h1>
+    <small class="text-muted">{{ answers|length }}</small>
+</div>
+{% if answers %}
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th>No.</th>
+        <th>问题id</th>
+        <th>状态</th>
+        <th>概要</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    {% for answer in answers %}
+    <tr>
+        <td>{{ answer['ansid'] }}</td>
+        <td><a href="{{ url_for('front.show_question', question_id=answer['quid']) }}">{{ answer['quid'] }}</a></td>
+        {% if answer["unread"] %}
+        <td>未过目</td>
+        {% else %}
+        <td>已过目</td>
+        {% endif %}
+        <td>{{ answer['content']|striptags|truncate }}</td>
+        <td>
+            <form class="inline" method="post"
+                  action="{{ url_for('front.delete_myanswer', ansid=answer['ansid'], next=request.full_path) }}">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?');">删除
+                </button>
+            </form>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% else %}
+<div class="tip"><h5>你还未作出回答</h5></div>
+{% endif %}
+
+{% endblock %}

@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block title %}Manage Users{% endblock %}
+{% block styles %}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css' ) }}">
+{% endblock %}
+
+{% block content %}
+    <div class="page-header">
+        <h1>用户</h1>
+    </div>
+
+{% if users %}
+<table class="table table-striped">
+            <thead>
+            <tr>
+                <th>No.</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+    {% for user in users %}
+    <tr>
+        <td>{{ user['uid'] }}</td>
+        <td>{{ user['name'] }}</td>
+        <td>{{ user['email'] }}</td>
+        <td><a class="btn btn-info btn-sm" href="{{ url_for('front.myquestion', user_id=user['uid'], next=request.full_path) }}">Ta的问题</a>
+            <form class="inline" method="post"
+                  action="{{ url_for('dashboard.delete_user', name=user['name'], next=request.full_path) }}">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                <button type="submit" class="btn btn-danger btn-sm"
+                        onclick="return confirm('Are you sure?');">Delete
+                </button>
+            </form>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+    {% else %}
+        <div class="tip"><h5>No Users.</h5></div>
+    {% endif %}
+
+<nav aria-label="Page navigation" style="float: right">
+        <ul class="pagination">
+            {% if page.has_prev %}
+            <li class="page-item active"><a class="page-link" href="{{ url_for(request.endpoint, page=page.cur_page-1) }}">上一页</a></li>
+            {% else %}
+            <li class="page-item disabled"><a class="page-link" href="#">上一页</a></li>
+            {% endif %}
+
+            {%if not page.is_last%}
+            <li class="page-item active"><a class="page-link" href="{{url_for(request.endpoint, page=page.cur_page+1)}}">下一页</a></li>
+            {%else%}
+            <li class="page-item disabled"><a class="page-link" href="#">下一页</a></li>
+            {%endif%}
+        </ul>
+    </nav>
+{% endblock %}

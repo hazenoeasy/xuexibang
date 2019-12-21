@@ -27,6 +27,12 @@ def database_init(engine, session):
                             update questioninfo
                             set ansnumber = ansnumber + 1
                             where quid = NEW.quid;''')
+        session.execute('''CREATE TRIGGER cat_update
+                            BEFORE DELETE ON category
+                            FOR EACH ROW
+                            update questioninfo
+                            set catid = 1
+                            where catid = OLD.catid;''')
         # 创建管理员, 现在移动到xuexibang/init中创建
         # admin = UserInfo(name='admin', password='123123', email='1059150030@qq.com',admin=True)
 
@@ -62,15 +68,15 @@ def database_init(engine, session):
             res["content"] = "Unknown error"
             return res
 
-    if session.query(UserInfo).filter_by(name="admin").first() is None:
-        res["success"] = False
-        res["status"] = 1000
-        res["message"] = "Database initiate failed,please check code"
-        res["content"] = "Database initiate failed,please check code"
-    else:
-        res["success"] = True
-        res["status"] = 0
-        res["message"] = "Database initiate successfully!!!"
-        res["content"] = "Database initiate successfully!!!"
+    # if session.query(UserInfo).filter_by(name="admin").first() is None:
+    #    res["success"] = False
+    #    res["status"] = 1000
+    #    res["message"] = "Database initiate failed,please check code"
+    #    res["content"] = "Database initiate failed,please check code"
+    # else:
+    res["success"] = True
+    res["status"] = 0
+    res["message"] = "Database initiate successfully!!!"
+    res["content"] = "Database initiate successfully!!!"
     session.close()
     return res

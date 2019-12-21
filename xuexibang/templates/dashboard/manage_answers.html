@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block title %}管理回答{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>未审核的回答</h1>
+    <small class="text-muted">未审核的回答数目：{{ unread_answers }}</small>
+</div>
+{% if answers %}
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th>No.</th>
+        <th>回答者</th>
+        <th>问题id</th>
+        <th>Date</th>
+        <th>概要</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    {% for answer in answers %}
+    <tr>
+        <td>{{ answer['ansid'] }}</td>
+        <td>{{ answer['uid'] }}</td>
+        <td><a href="{{ url_for('front.show_question', question_id=answer['quid']) }}">{{ answer['quid'] }}</a></td>
+        <td>{{ moment(answer['anstime']).format('L') }}</td>
+        <td>{{ answer['content']|striptags|truncate }}</td>
+        <td>
+            <form class="inline" method="post"
+                  action="{{ url_for('dashboard.read_answer', ans_id=answer['ansid'], next=request.full_path) }}">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?');">Readed
+                </button>
+            </form>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% else %}
+<div class="tip"><h5>No unread answers.</h5></div>
+{% endif %}
+<nav aria-label="Page navigation" style="float: right">
+        <ul class="pagination">
+            {% if page.has_prev %}
+            <li class="page-item active"><a class="page-link" href="{{ url_for(request.endpoint, page=page.cur_page-1) }}">上一页</a></li>
+            {% else %}
+            <li class="page-item disabled"><a class="page-link" href="#">上一页</a></li>
+            {% endif %}
+
+            {%if not page.is_last%}
+            <li class="page-item active"><a class="page-link" href="{{url_for(request.endpoint, page=page.cur_page+1)}}">下一页</a></li>
+            {%else%}
+            <li class="page-item disabled"><a class="page-link" href="#">下一页</a></li>
+            {%endif%}
+        </ul>
+    </nav>
+{% endblock %}

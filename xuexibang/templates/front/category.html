@@ -9,7 +9,11 @@
 {% block content %}
 <div class="page-header">
     <h1>类别: {{ categories[catid] }}</h1>
+    {% if questions %}
     <p class="test-muted">{{ questions | length }} questions</p>
+    {% else %}
+    <p class="test-muted">no question</p>
+    {% endif %}
 </div>
 <div class="row">
     <div class="col-sm-8">

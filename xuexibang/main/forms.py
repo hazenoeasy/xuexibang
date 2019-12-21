@@ -14,7 +14,7 @@ from extensions import db
 class LoginForm(FlaskForm):
     # 使用render_kw来为表单项增加属性placeholder
     username = StringField('Username', validators=[DataRequired()], render_kw={'placeholder': 'username'})
-    password = PasswordField('Password', validators=[DataRequired(), Length(8, 128)], render_kw={'placeholder': '>=8'})
+    password = PasswordField('Password', validators=[DataRequired(), Length(3, 128)], render_kw={'placeholder': '>=3'})
     remember = BooleanField('Remember me')
     submit = SubmitField('Log in')
 
@@ -22,8 +22,8 @@ class LoginForm(FlaskForm):
 class RegisterForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired(), Length(1, 20)])
     email = StringField('Email', validators=[DataRequired(), Email(), Length(1, 254), Email()])
-    password = PasswordField('Password', validators=[DataRequired(), Length(8, 128), EqualTo('password2')])
-    password2 = PasswordField('Confirm Password', validators=[DataRequired(), Length(8, 128)])  # 未添加验证
+    password = PasswordField('Password', validators=[DataRequired(), Length(3, 128), EqualTo('password2')])
+    password2 = PasswordField('Confirm Password', validators=[DataRequired(), Length(3, 128)])  # 未添加验证
     submit = SubmitField('Register')
 
     def validate_username(self, field):  # 防止用户名重复
@@ -57,3 +57,21 @@ class AnswerForm(FlaskForm):
     answer = TextAreaField('答案', validators=[DataRequired()], render_kw={'placeholder': 'please input the answer'})
     # 提交按钮
     submit = SubmitField('提交')
+
+
+class CategoryForm(FlaskForm):  # 用于新增种类的表单
+    name = StringField('Name', validators=[DataRequired(),  Length(1, 30)])
+    submit = SubmitField('提交')
+
+    def validate_name(self, field):   # 注意 不要写成validate_on_submit了
+        ret = db.get_result({"function" : db.GET_CAT_BY_NAME, "content" : {
+            "catname" : field.data
+        }})
+        if ret["content"]:
+            raise ValidationError('The category name is already in use.')
+
+
+class AdminForm(FlaskForm):   # 用于更改管理员密码
+    password = PasswordField('New Password', validators=[DataRequired(), Length(3, 128), EqualTo('password2')])
+    password2 = PasswordField('Confirm Password', validators=[DataRequired(), Length(3, 128)])  # 未添加验证
+    submit = SubmitField('ChangePass')

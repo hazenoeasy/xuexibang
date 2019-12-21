@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% from 'bootstrap/form.html' import render_form %}
+
+{% block title %}管理问题类别{% endblock %}
+
+{% block content %}
+    <div class="page-header">
+        <h1>问题类别
+            <small class="text-muted">{{ categories|length }}</small>
+            <span class="float-right"><a class="btn btn-primary "
+                                         href="{{ url_for('dashboard.new_category') }}">New Category</a></span>
+        </h1>
+    </div>
+
+{% if categories %}
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>No.</th>
+                <th>Name</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            {% for catid, catname in categories.iteritems() %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td><a href="{{ url_for('front.show_category', category_id=catid) }}">{{ catname }}</a></td>
+                    <td>
+                        {% if catid != 1 %}
+                            <a class="btn btn-info btn-sm"
+                               href="{{ url_for('dashboard.edit_category', cat_name=catname) }}">Edit</a>
+                            <form class="inline" method="post"
+                                  action="{{ url_for('dashboard.delete_category', cat_name=catname) }}">
+                                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                                <button type="submit" class="btn btn-danger btn-sm"
+                                        onclick="return confirm('Are you sure?');">Delete
+                                </button>
+                            </form>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+        <p class="text-muted">Tips: Deleting a category does not delete the article under that category.
+            The articles under this category will be moved to the default category.</p>
+    {% else %}
+        <div class="tip"><h5>No categories.</h5></div>
+    {% endif %}
+
+{% endblock %}

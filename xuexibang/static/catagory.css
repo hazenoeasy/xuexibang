@@ -13,6 +13,30 @@ nav {
 .container{
     width: 1000px;
 }
+
+.col-sm-4 {
+    width: 25%;
+	}
+
+.ques_each{
+    position: relative;
+	}
+.btn {
+    position: absolute;
+    bottom: 5px;
+    margin-left: 10px;
+    padding: 2px;
+    width: 57px;
+    height: 30px;
+    font-size: 14px;
+}
+.btn-info{
+    position: absolute;
+    right:20px;
+}
+.btn-danger{
+    right: 80px;
+}
 footer {
     font-size: 13px;
     color: #888;
@@ -21,3 +45,6 @@ footer {
     text-align: center;
     padding: 10px;
 	}
+.list-group-item2:hover{
+	background-color: #0c5460;
+}

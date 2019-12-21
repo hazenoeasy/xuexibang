@@ -10,6 +10,30 @@ from database.models.model import QuestionInfo
 from database.base.question_manager import delete_question_by_id
 
 
+# 获取一定数量user
+def get_users(number, session):
+    user_info_list = []
+    user_list = []
+    res = {}
+    try:
+        user_info_list = session.query(UserInfo).limit(number["number"]).offset(number["start"]).all()
+
+        for user_info in user_info_list:
+            tmp = user_info.to_dict()
+            user_list.append(tmp)
+        res["success"] = True
+        res["status"] = 0
+        res["message"] = "Recommend question got"
+        res["content"] = user_list
+        return res
+    except Exception as e:
+        res["success"] = False
+        res["status"] = 1000
+        res["message"] = e.message
+        res["content"] = user_info_list
+        return res
+
+
 # 根据用户名查找用户
 def get_user_by_name(user, session):
     res = {}
@@ -104,7 +128,7 @@ def update_user_pwd(user, session):
 
     try:
         user_info = session.query(UserInfo).filter_by(name=user["name"]).first()
-        user_info.password = user["password"]
+        user_info.password_hash = user["password_hash"]
         res["success"] = True
         res["status"] = 0
         res["message"] = "User: %s password update successfully!!" % user["name"]

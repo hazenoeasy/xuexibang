@@ -4949,13 +4949,25 @@ tbody.collapse.show {
 }
 
 .alert {
-  position: relative;
-  padding: 0.75rem 1.25rem;
-  margin-bottom: 1rem;
+  position: fixed;
+  left: 940px;
+  top: 4px;
+  padding: 12px;
+  margin-bottom: 20px;
   border: 1px solid transparent;
-  border-radius: 0.25rem;
+  border-radius: 3px;
+  background-color: #d9edf7;
 }
-
+/*.alert1 {
+  position: fixed;
+    left: 940px;
+    top: 4px;
+    padding: 12px;
+    margin-bottom: 20px;
+    border: 1px solid transparent;
+    border-radius: 3px;
+    background-color: #d9edf7;
+}*/
 .alert-heading {
   color: inherit;
 }

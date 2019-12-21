@@ -1,22 +1,25 @@
 {% extends 'base.html' %}
 {% from 'bootstrap/form.html' import render_form %}
+{% block styles %}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='register.css' ) }}">
+{% endblock %}
 
-{% block title %}Register{% endblock %}
+{% block title %}注册{% endblock %}
 
 {% block content %}
-    <div class="jumbotron">
         <div class="row">
             <div class="col-md-4">
                 <div class="card mb-3 w-100 bg-light">
-                    <div class="card-header"><h4>Welcome to xuexibang!</h4></div>
+                    <div class="card-header"><h4>Welcome to xuexibang!</h4><hr></div>
                     <div class="card-body">
                         {{ render_form(form) }}
+                        <br>
                         <hr>
-                        <small>Already have an account? <a href="{{ url_for('auth.login') }}">Click here to log in.</a>
+                        <small>已有账号？ <a href="{{ url_for('auth.login') }}">点击这里登录</a>
                         </small>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+
 {% endblock %}

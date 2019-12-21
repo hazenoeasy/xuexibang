@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block title %}问题管理{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>问题管理</h1>
+    <small class="text-muted">新问题：{{ unread_questions }}</small>
+</div>
+{% if questions %}
+    <table class="table table-striped">
+    <thead>
+    <tr>
+        <th>No.</th>
+        <th>Title</th>
+        <th>Category</th>
+        <th>Date</th>
+        <th>Comments</th>
+        <th>Words</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    {% for ques in questions %}
+    <tr>
+        <td>{{ ques['quid'] }}</td>
+        <td><a href="{{ url_for('front.show_question', question_id=ques['quid']) }}">{{ ques['qutitle'] }}</a></td>
+        <td><a href="{{ url_for('front.show_category', category_id=ques['catid']) }}">{{ categories[ques['catid']] }}</a></td>
+        <td>{{ moment(ques['qutime']).format('L') }}</td>
+        <td><a href="{{ url_for('front.show_question', question_id=ques['quid']) }}#comments">{{ ques['ansnumber'] }}</a></td>
+        <td>{{ ques['qucontent']|length }}</td>
+        <td>
+            <form class="inline" method="post"
+                  action="{{ url_for('dashboard.delete_questions', question_id=ques['quid'], next=request.full_path) }}">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?');">Delete
+                </button>
+            </form>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% else %}
+    <div class="tip"><h5>No questions.</h5></div>
+{% endif %}
+
+<nav aria-label="Page navigation" style="float: right">
+    <ul class="pagination">
+        {% if page.has_prev %}
+            <li class="page-item active"><a class="page-link" href="{{ url_for(request.endpoint, page=page.cur_page-1) }}">上一页</a></li>
+        {% else %}
+            <li class="page-item disabled"><a class="page-link" href="#">上一页</a></li>
+        {% endif %}
+
+        {%if not page.is_last%}
+            <li class="page-item active"><a class="page-link" href="{{url_for(request.endpoint, page=page.cur_page+1)}}">下一页</a></li>
+        {%else%}
+            <li class="page-item disabled"><a class="page-link" href="#">下一页</a></li>
+        {%endif%}
+    </ul>
+</nav>
+{% endblock %}

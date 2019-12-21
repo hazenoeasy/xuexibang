@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% from 'bootstrap/form.html' import render_form %}
+
+{% block title %}设置{% endblock %}
+
+{% block content %}
+<div class="container h-100">
+        <div class="row h-100 page-header justify-content-center align-items-center form-contain">
+            <h1>更改密码</h1>
+        </div>
+        <div class="row h-100 justify-content-center align-items-center" style="width: 60%">
+            {{ render_form(form, extra_classes='col-6') }}
+        </div>
+    </div>
+{% endblock %}

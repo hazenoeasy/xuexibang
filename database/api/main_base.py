@@ -92,6 +92,24 @@ class Operator:
         # 根据用户id获取用户信息
         self.GET_USER_BY_ID = 22
 
+        # 获取未审批问题
+        self.GET_UNREAD_QUESTION = 23
+
+        # 根据分类名称获取id
+        self.GET_CAT_BY_NAME = 24
+
+        # 设置问题已审批
+        self.SET_QUESTION_READ = 25
+
+        # 获取未审批答案
+        self.GET_UNREAD_ANSWER = 26
+
+        # 设置答案已审批
+        self.SET_ANSWER_READ = 27
+
+        # 获取一定数量用户
+        self.GET_USERS = 28
+
     def get_result(self, given):
         """
         数据库操作函数
@@ -110,10 +128,12 @@ class Operator:
         cont = given.get("content")
         dev = given.get("dev")
         res = {}
+        log_flag = 1
         if function == self.DATABASE_INIT and dev is True:
             res = database_init(engine=engine, session=session)
 
         elif function == self.GET_UER_BY_NAME:
+            log_flag = 0
             res = get_user_by_name(cont, session)
 
         elif function == self.INSERT_USER:
@@ -129,24 +149,30 @@ class Operator:
             res = insert_question(cont, session)
 
         elif function == self.GET_RECOMMEND_QUESTION:
-            res = get_recommend_question(cont,session)
+            log_flag = 0
+            res = get_recommend_question(cont, session)
 
         elif function == self.GET_QUESTION_BY_ID:
+            log_flag = 0
             res = get_question(cont, session)
 
         elif function == self.INSERT_ANSWER:
             res = insert_answer(cont, session)
 
         elif function == self.GET_ANSWER_BY_ID:
+            log_flag = 0
             res = get_answer_by_id(cont, session)
 
         elif function == self.GET_ANSWER_BY_QUID:
+            log_flag = 0
             res = get_answer_by_quid(cont, session)
 
         elif function == self.GET_QUESTION_BY_UID:
+            log_flag = 0
             res = get_question_by_uid(cont, session)
 
         elif function == self.GET_ANSWER_BY_UID:
+            log_flag = 0
             res = get_answer_by_uid(cont, session)
 
         elif function == self.DELETE_ANSWER_BY_ID:
@@ -156,9 +182,11 @@ class Operator:
             res = delete_question_by_id(cont, session)
 
         elif function == self.INSERT_FOLLOW:
+            log_flag = 0
             res = insert_follow(cont, session)
 
         elif function == self.DELETE_FOLLOW:
+            log_flag = 0
             res = delete_follow(cont, session)
 
         elif function == self.INSERT_CATEGORY:
@@ -168,24 +196,49 @@ class Operator:
             res = delete_category(cont, session)
 
         elif function == self.GET_ALL_CATEGORY:
+            log_flag = 0
             res = get_all_category(session)
 
         elif function == self.GET_QUESTION_BY_CAT:
+            log_flag = 0
             res = get_question_by_cat(cont, session)
 
         elif function == self.GET_USER_FOLLOW:
+            log_flag = 0
             res = get_user_follow(cont, session)
 
         elif function == self.GET_USER_BY_ID:
-            res = get_user_by_id(cont,session)
+            log_flag = 0
+            res = get_user_by_id(cont, session)
+
+        elif function == self.GET_UNREAD_QUESTION:
+            log_flag = 0
+            res = get_unread_question(cont,session)
+
+        elif function == self.GET_CAT_BY_NAME:
+            log_flag = 0
+            res = get_cat_by_name(cont, session)
+
+        elif function == self.SET_QUESTION_READ:
+            res = set_question_read(cont, session)
+
+        elif function == self.GET_UNREAD_ANSWER:
+            log_flag = 0
+            res = get_unread_answer(cont,session)
+
+        elif function == self.SET_ANSWER_READ:
+            res = set_answer_read(cont,session)
+
+        elif function == self.GET_USERS:
+            res = get_users(cont, session)
 
         session.close()
         if res["success"] is True:
-            Logger.info(res["message"])
+            Logger.info(log_flag, res["message"])
         else:
-            Logger.error(res["message"])
+            Logger.error(1, res["message"])
         return res
 
 
 if __name__ == '__main__':
-    Logger.info("test")
+    Logger.info(1, "test")

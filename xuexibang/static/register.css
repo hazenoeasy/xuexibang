@@ -1,0 +1,61 @@
+nav {
+    width: 1000px;
+    margin: auto;
+}
+
+.container {
+    width: 800px;
+    height: 480px;
+    opacity: 0.7;
+    background-color: white;
+}
+
+body{
+     background-image: url("b1.jpg");
+    background-size: cover;
+}
+hr {
+    background-color: #904545;
+}
+.page-header {
+    margin: 0;
+    text-align: center;
+}
+
+.row {
+    margin-left: 0;
+    margin-right: 0;
+}
+.col-md-4 {
+    width: 60%;
+    margin-left: 120px;
+}
+.card-header {
+    text-align: center;
+    line-height: 50px;
+}
+
+
+.btn {
+    margin-right: 0;
+    float: right;
+    background-color: rgba(158, 213, 250, 1);
+    color: white;
+
+}
+footer {
+    font-size: 13px;
+    color: #888;
+    border-top: 1px solid #eee;
+    margin-top: 25px;
+    text-align: center;
+    padding: 10px;
+
+}
+
+.alert{
+    position: absolute;
+    right: 20%;
+    top: 0;
+    width: 200px;
+}

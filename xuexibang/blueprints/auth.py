@@ -26,7 +26,7 @@ def login():
         username_input = form.username.data
         password_input = form.password.data
         remember = form.remember.data
-        userinfo = db.get_result({"function" : db.GET_UER_BY_NAME, "content": {
+        userinfo = db.get_result({"function": db.GET_UER_BY_NAME, "content": {
             "name" : username_input
         }})['content']
 
@@ -35,7 +35,7 @@ def login():
                          password_hash=userinfo['password_hash'])
             if user.validate_password(password_input):
                 login_user(user, remember)
-                flash('Welcome home, %s!' % username_input)
+                flash('欢迎回来, %s!' % username_input)
                 return redirect_back()
         else:
             flash('No account.', 'warning')
@@ -46,8 +46,8 @@ def login():
 @login_required
 def logout():
     logout_user()
-    flash('Logout success .','info')
-    return redirect_back()
+    flash('Logout success .', 'info')
+    return redirect((url_for('front.home')))
 
 
 @auth_bp.route('/register', methods=['GET', 'POST'])
@@ -58,10 +58,21 @@ def register():
         username = form.username.data
         email = form.email.data.lower()
         password = form.password.data
-        user = UserInfo(name=username, email=email, admin=False)
-        user.set_password(password)
-        db.get_result({"function" : db.INSERT_USER, "content" : user.to_dict()})
-        flash('注册成功！请登录')
-        return redirect(url_for('auth.login'))
+        ret = db.get_result({"function" : db.GET_UER_BY_NAME, "content" : {
+            "name" : username
+        }})
+        if ret["content"] is None:
+            user = UserInfo(name=username, email=email, admin=False)
+            user.set_password(password)
+            ret = db.get_result({"function": db.INSERT_USER, "content": user.to_dict()})
+            if ret["success"]:
+                flash('注册%s！请登录' % ret["success"])
+                return redirect(url_for('auth.login'))
+            else:
+                flash('注册失败')
+                return redirect(url_for('auth.register'))
+        else:
+            flash('用户名已存在！重新注册')
+            return redirect(url_for('auth.register'))
     return render_template('auth/register.html', form=form)
 

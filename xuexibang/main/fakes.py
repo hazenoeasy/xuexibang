@@ -18,7 +18,7 @@ logging.basicConfig(level=logging.DEBUG)
 fake = Faker('zh_CN')
 
 
-def fake_user(count=1):
+def fake_user(count=3):
     for i in range(count):
         u = UserInfo(name=fake.name(), email=fake.email(), admin=False)
         u.set_password("88888888")
@@ -31,7 +31,7 @@ def fake_category(count=5):
     if ret["content"] : # 若已经建好分类
         click.echo("category already exist")
         return
-    cn = ("高数", "英语", "编程", "考试", "其他")
+    cn = ("其他", "高数", "英语", "编程", "考试")
     for i in range(count):
         category = Category(catname=cn[i])
         db.get_result({"function": db.INSERT_CATEGORY,
@@ -44,10 +44,11 @@ def fake_qna(count=10):
         question = QuestionInfo(
             qucontent=fake.text(50),
             qutitle=fake.sentence(),
-            uid=2,  # 提问者id
+            uid=random.randint(2, 4),  # 提问者id
             qutime=fake.date_time_this_year(),
             catid=random.randint(1,5),
-            ansnumber=0   # 设置成0，之后触发器来修改
+            ansnumber=0,   # 设置成0，之后触发器来修改
+            unread=random.randint(0, 1)
         )
         ret = db.get_result({"function" : db.INSERT_QUESTION, "content" : question.to_dict()})
         click.echo(ret["success"])
@@ -58,8 +59,9 @@ def fake_qna(count=10):
         answer = AnswerInfo(
             anscontent=fake.text(30),
             anstime=fake.date_time_this_year(),
-            uid=1, # 回答者id
-            quid=random.randint(1, count)
+            uid=random.randint(2, 4), # 回答者id
+            quid=random.randint(1, count),
+            unread=random.randint(0, 1)
         )
         db.get_result({"function" : db.INSERT_ANSWER, "content":answer.to_dict()})
         # click.echo(ret)

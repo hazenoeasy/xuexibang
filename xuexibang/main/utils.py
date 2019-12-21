@@ -23,3 +23,12 @@ def redirect_back(default='front.home', **kwargs):
         if is_safe_url(target):
             return redirect(target)
     return redirect(url_for(default, **kwargs))
+
+
+class Page(object):
+
+    def __init__(self, cur_page, per, last_one=False):
+        self.cur_page = cur_page
+        self.per = per
+        self.is_last = last_one
+        self.has_prev = (cur_page == 1)

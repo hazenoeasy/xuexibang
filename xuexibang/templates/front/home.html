@@ -1,48 +1,45 @@
 {% extends 'base.html' %}
-{% from 'macros.html' import func %}
 
 {% block title %}主页{% endblock %}
 
 {% block styles %}
-{#   <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css' ) }}">#}
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='home.css' ) }}">
 {% endblock %}
 
 {% block content %}
-     <div class="leftbar">
-
-        <div class="submit_ques">
-            <form method="post">
-				<!-- 表单域 -->
-                <div class="form_container">
-                    {{ form.csrf_token }}
-                    <div class="form_group">
-                        {{ form.title.label}}<br>
-                        {{ form.title ( class='form_control' )}}<br><!-- 问题标题 -->
-                    </div>
-                    <div class="form_group">
-                        {{ form.description.label }}<br>
-                        {{ form.description(class='description')}}<br> <!-- 问题描述 -->
-                    </div>
-                    <div class="form_group">
-                        {{ form.category.label }}<br>
-                        {{ form.category(class='form_check_input') }}
-                    </div>
+    <div class="submit_ques">
+        <form method="post">
+            <!-- 表单域 -->
+            <div class="form_container">
+                {{ form.csrf_token }}
+                <div class="form_group">
+                    {{ form.title.label}}<br>
+                    {{ form.title ( class='form_control' )}}<br><!-- 问题标题 -->
                 </div>
-                        {{ form.submit(class='btn btn-default') }}<br>  <!-- 发布问题按钮 -->
-			</form>
-        </div>
-
+                <div class="form_group">
+                    {{ form.description.label }}<br>
+                    {{ form.description(class='description')}}<br> <!-- 问题描述 -->
+                </div>
+                <div class="form_group">
+                    {{ form.category.label }}<br>
+                    {{ form.category(class='form_check_input') }}
+                </div>
+            </div>
+            {{ form.submit(class='btn btn-default') }}<br>  <!-- 发布问题按钮 -->
+        </form>
 			<!-- 问题显示区 -->
-        <div class="row">
-                <div class="ques_display">
-                    {% include 'front/_question.html' %}
-                </div>
+        <hr>
+      <div class="row">
+            <div class="ques_display">
+                 {% include 'front/_question.html' %}
+            </div>
         </div>
-     </div>
 
-    <div class="col-sm-4 sidebar rightbar">
+    </div>
+
+    <div class="col-sm-4 sidebar ">
         {% include 'front/_sidebar.html' %}
     </div>
+
 
 {% endblock %}

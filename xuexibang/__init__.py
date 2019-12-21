@@ -4,11 +4,12 @@ import os
 
 import click
 from flask import Flask, render_template
+from flask_wtf.csrf import CSRFError
 
 from xuexibang.blueprints.auth import auth_bp
 from xuexibang.blueprints.front import front_bp
 from xuexibang.blueprints.dashboard import dashboard_bp
-from xuexibang.main.extensions import bootstrap, db, ckeditor, moment, mail, login_manager
+from xuexibang.main.extensions import bootstrap, db, ckeditor, moment, mail, login_manager, csrf
 from xuexibang.settings import config
 
 
@@ -41,6 +42,7 @@ def register_extensions(app):
     ckeditor.init_app(app)
     mail.init_app(app)
     moment.init_app(app)
+    csrf.init_app(app)
 
 
 def register_blueprints(app):
@@ -62,7 +64,15 @@ def register_template_context(app):
     @app.context_processor
     def make_template_context():
         categories = db.get_result({"function": db.GET_ALL_CATEGORY})["content"]  # 用于显示边栏
-        return dict(categories=categories)
+        unread_questions = len(db.get_result({"function": db.GET_UNREAD_QUESTION, 'content':{
+            "start": 0,
+            "number": 99
+        }})["content"])
+        unread_answers = len(db.get_result({"function": db.GET_UNREAD_ANSWER, "content":{
+            "start": 0,
+            "number": 99
+        }})["content"])
+        return dict(categories=categories, unread_answers=unread_answers, unread_questions=unread_questions)
 
 
 def register_errors(app):
@@ -77,6 +87,10 @@ def register_errors(app):
     @app.errorhandler(500)
     def internal_server_error(e):
         return render_template('errors/500.html'), 500
+
+    @app.errorhandler(CSRFError)
+    def handle_csrf_error(e):
+        return render_template('errors/400.html', description=e.description), 400
 
 
 def register_commands(app):

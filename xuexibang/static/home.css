@@ -1,100 +1,127 @@
-/*home.html*/
+html{
 
+		background-repeat: round;
+	}
+body{
+	background-image: url("b2.jpg");
+	background-size: contain;
+}
+
+.card-header{
+	font-size: 16px;
+	line-height: 50px;
+	font-weight: bold;
+}
+
+hr{
+	border: 10000px;
+
+}
 body {
 	width: 1000px;
 	margin: auto;
 }
 nav {
 	width: 1000px;
-	/*height: 60px;*/
 	border-bottom: 1px solid black;
 	background-color: white;
 }
 
-/*nav li {
-	list-style: none;
-	float: left;       /*!*排成一行*!
-	margin: 10px 20px;
+form {
+	margin-bottom: 5px;
+}
+
+main {
+	display: flex;
+	background-color: white;
+}
+
+.container{
+	width: 1000px;
+	/*background-color: #80acd2;*/
+	/*background-color: transparent;*/
+
+}
+
+main .submit_ques {
+	overflow: hidden;
+	margin: 5px auto;
+	border-bottom: 1px solid black;
+
+}
+
+.form_container {
+	padding: 10px 0;
+	text-align: left;
+}
+
+.form_group .form_control
+{
+	width: 98%;
+	height: 30px;
+	margin: 10px 0;
+}
+
+.form_group .description {
+	width: 98%;
+	height: 80px;
+}
+
+.form_group .form-check-label {
+	width: 80px;
+	height: 30px;
+}
+
+.btn {
+	width: 62px;
+	height: 33px;
+	font-size:  15px;
+	float: right;
+	}
+
+.ques_display a {
+	text-decoration: none;
+}
+
+.row{
+	margin-left: 0;
+	margin-right: 0;
+}
+
+footer {
+	font-size: 13px;
+	color: #888;
+	border-top: 1px solid #eee;
+	margin-top: 25px;
+	text-align: center;
+	padding: 10px;
+	}
+
+.alert {
+	position: absolute;
+	width: 711px;
+	padding: 0.75rem 1.25rem;
+	margin-bottom: 1rem;
+	border-radius: 0.25rem;
+	color: #004085;
+	background-color: #cce5ff;
+	border-color: #b8daff;
+}
+
+.navbar{
+	margin-bottom:0px;
+}
+.list-group-item2:hover{
+	background-color: #a5c9e3;
+}
+
+.list-group-item{
+	text-align: center;
+}
+
+.a{
+	color:#596982;
+
 }
 
 
-ul li a {
-	text-decoration: none;
-	color: black;
-}*/
-
-	form {
-		margin-bottom: 5px;
-	}
-
-	main {
-		width: 100%;
-		display: flex;
-	}
-
-	.container{
-		width: 1000px;
-	}
-	main .leftbar {
-		flex: 4;
-
-	}
-	main .rightbar {
-		flex: 1;
-	}
-
-	main .submit_ques {
-		overflow: hidden;
-		margin: 5px auto;
-		border-bottom: 1px solid black;
-	}
-
-	.form_container {
-		padding: 10px 0;
-		text-align: left;
-	}
-
-	.form_group .form_control
-	{
-		width: 98%;
-    	height: 30px;
-		margin: 10px 0;
-	}
-
-	.form_group .description {
-		width: 98%;
-		height: 80px;
-	}
-
-	.form_group .form-check-label {
-		width: 80px;
-		height: 30px;
-	}
-	.btn {
-		width: 50px;
-		height: 33px;
-		font-size:  15px;
-	}
-
-	.ques_display a {
-		text-decoration: none;
-	}
-
-	/*分类栏*/
-	.rightbar ul
-	{
-		overflow: hidden;
-	}
-
-	.row{
-		margin-left: 0;
-	}
-	footer {
-		font-size: 13px;
-		color: #888;
-		border-top: 1px solid #eee;
-		margin-top: 25px;
-		text-align: center;
-		padding: 10px;
-
-	}

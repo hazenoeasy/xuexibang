@@ -1,5 +1,4 @@
 {% extends 'base.html' %}
-{% from 'macros.html' import func %}
 
 {% block title %}我发布的问题{% endblock %}
 
@@ -9,16 +8,20 @@
 
 {% block content %}
 
-     <div class="row leftbar">
+     <div class="row">
+         {% if current_user.admin %}
+         <h3>Ta发布的问题</h3>
+         {% else %}
          <h3>我发布的问题</h3>
-         <div class="row">
+         {% endif %}
+         <div class="row1">
                 <div class="ques_container">
                     {% include 'front/_question.html' %}
                 </div>
         </div>
      </div>
 
-    <div class="col-sm-4 sidebar rightbar">
+    <div class="col-sm-4 sidebar ">
 			{% include 'front/_sidebar.html' %}
     </div>
 

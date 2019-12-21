@@ -1,0 +1,50 @@
+nav {
+    width: 1000px;
+    margin: auto;
+}
+
+.container {
+    width: 800px;
+    height: 450px;
+    opacity: 0.7;
+    background-color: white;
+}
+body{
+     background-image: url("b1.jpg");
+    background-size: cover;
+}
+.page-header {
+    margin: 0;
+    text-align: center;
+}
+
+.row {
+    margin-left: 0;
+    margin-right: 0;
+}
+.form_container {
+    width: 60%;
+    margin: 0 auto;
+}
+footer {
+    font-size: 13px;
+    color: #888;
+    border-top: 1px solid #eee;
+    margin-top: 25px;
+    text-align: center;
+    padding: 10px;
+
+}
+
+.btn{
+    float: right;
+    background-color: rgba(158, 213, 250, 1);
+    color: white;
+}
+
+.alert{
+    position: absolute;
+    right: 20%;
+    top: 0;
+    width: 200px;
+}

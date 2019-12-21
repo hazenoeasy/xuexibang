@@ -33,6 +33,19 @@
 		flex: 3;
 	}
 
+	.btn-primary{
+		color: #333;
+    	background-color: #fff;
+    	border-color: #ccc;
+	}
+
+	.btn:hover{
+
+		color: #333;
+    	background-color: #e6e6e6;
+    	border-color: #adadad;
+	}
+
 	/*.leftbar */
 	.mya_container {
 		margin-top: 20px;
@@ -96,3 +109,10 @@
 		padding: 10px;
 
 	}
+
+	.alert{
+    position: absolute;
+    right: 20%;
+    top: 0;
+    width: 200px;
+}

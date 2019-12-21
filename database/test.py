@@ -4,7 +4,7 @@
 # filename: test.py
 # 本模块为接口测试模块
 from database.api.main_base import Operator
-from database.models.model import UserInfo, QuestionInfo
+from database.models.model import UserInfo, QuestionInfo, Category
 import datetime
 from faker import Faker
 
@@ -32,8 +32,17 @@ if __name__ == '__main__':
 
     o = Operator()
 
-    ret = o.get_result({"function": o.GET_ALL_CATEGORY})["content"]
+    ret = o.get_result({"function": o.SET_ANSWER_READ, "content":{
+        "ansid": 22
+    }})
     print ret
+    # category = Category(catname="")
+    # ret = o.get_result({"function": o.INSERT_CATEGORY,
+    #                "content": category.to_dict()})
+    # print ret
+    # ret = o.get_result({"function": o.GET_QUESTION_BY_CAT, "content": {"number": 5, "start": 0, "catid": 1}})
+    # questions = ret["content"]  # 一个list对象
+    # print questions
 
     #ret = o.get_result({"function": o.GET_RECOMMEND_QUESTION, "content": {"number": 5}})
     #for ques in ret["content"]:

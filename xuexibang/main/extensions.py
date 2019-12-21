@@ -11,6 +11,7 @@ from flask_mail import Mail
 from flask_moment import Moment
 from database.api.main_base import *
 from flask_login import LoginManager
+from flask_wtf.csrf import CSRFProtect
 import click
 
 bootstrap = Bootstrap()
@@ -19,12 +20,13 @@ mail = Mail()
 ckeditor = CKEditor()
 moment = Moment()
 login_manager = LoginManager()
+csrf = CSRFProtect()
 
 
 @login_manager.user_loader
 def load_user(user_id):
     from database.models.model import UserInfo
-    ret = db.get_result({"function" : db.GET_USER_BY_ID, "content" : {
+    ret = db.get_result({"function" : db.GET_USER_BY_ID, "content": {
         "uid" : int(user_id)
     }})
     userinfo = ret["content"]

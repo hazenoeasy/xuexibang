@@ -43,7 +43,9 @@ class Logger:
         return log_path
 
     @classmethod
-    def info(cls, msg):
+    def info(cls, flag, msg):
+        if flag == 0:
+            return
         # 检测是否需要新建日志文件
         now_path = cls.getpath()
 
@@ -58,7 +60,9 @@ class Logger:
         return
 
     @classmethod
-    def error(cls, msg):
+    def error(cls, flag, msg):
+        if flag == 0:
+            return
         now_path = cls.getpath()
 
         if now_path != cls.log_path:
@@ -73,5 +77,5 @@ class Logger:
 
 
 if __name__ == '__main__':
-    Logger.error("error_test")
-    Logger.info("info_test")
+    Logger.error(1, "error_test")
+    Logger.info(1, "info_test")

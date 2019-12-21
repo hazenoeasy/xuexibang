@@ -23,7 +23,7 @@ def insert_category(category, session):
         res["status"] = 1000
         res["message"] = e.message
         res["content"] = None
-
+        return res
 
 def delete_category(id, session):
     res = {}
@@ -65,6 +65,23 @@ def get_all_category(session):
         res["content"] = None
         return res
 
+
+def get_cat_by_name(name, session):
+    res = {}
+    try:
+        cat = session.query(Category).filter_by(catname = name["catname"]).first()
+        res["success"] = True
+        res["status"] = 0
+        res["message"] = ""
+        res["content"] = cat.to_dict()
+        return res
+
+    except Exception as e:
+        res["success"] = False
+        res["status"] = 1000
+        res["message"] = e.message
+        res["content"] = None
+        return res
 
 def tmp():
     res = {}

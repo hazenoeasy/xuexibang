@@ -7,7 +7,14 @@
         <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}">
         <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
 	    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+        <script typet="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>
 	    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <script>
+            $(document).ready(function()
+            {
+                $('.container').animate({'opacity':0.8},3000);
+            })
+        </script>
         {% block styles %}
             <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css' ) }}">
         {% endblock %}
@@ -23,18 +30,59 @@
 	</div>
 	<div>
 		<ul class="nav navbar-nav">
-            {% if current_user.is_authenticated %}
+            {% if current_user.is_authenticated and not current_user.admin %} <!-- 非管理员登录 -->
 			<li><a href="{{ url_for('front.home') }}">首页</a></li>
 			<li><a href="{{ url_for('front.myquestion', user_id=current_user.uid, next=request.full_path) }}">我发布的问题</a></li>
-            <li><a href="{{ url_for('front.home') }}">我回答的问题</a></li>
-			<li><a href="{{ url_for('front.home') }}" >我关注的问题</a></li>
-            <li><a href="{{ url_for('auth.logout', next=request.full_path) }}">登出</a></li>
-            {% else %}
+            <li><a href="{{ url_for('front.myanswer', user_id=current_user.uid, next=request.full_path) }}">我的回答</a></li>
+			<li><a href="{{ url_for('front.myfollow', user_id=current_user.uid, next=request.full_path) }}" >我关注的问题</a></li>
+            <li><a href="{{ url_for('auth.logout', next=request.full_path) }}">{{ current_user.name }} 登出</a></li>
+            {% elif not current_user.is_authenticated %}
             <li> <a href="{{ url_for('auth.login', next=request.full_path) }} ">我发布的问题</a></li>
 		    <li><a href="{{ url_for('auth.login', next=request.full_path) }}">我回答的问题</a></li>
 			<li><a href="{{ url_for('auth.login', next=request.full_path) }}" >我关注的问题</a></li>
             <li><a href="{{ url_for('auth.login', next=request.full_path) }}">登录</a></li>
             <li><a href="{{ url_for('auth.register', next=request.full_path) }}">注册</a></li>
+            {% elif current_user.is_authenticated and current_user.admin %} <!-- 管理员登录 -->
+                <li class="nav-item dropdown">
+                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button"
+                               aria-haspopup="true"
+                               aria-expanded="false">
+                                新建 <span class="caret"></span>
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="{{ url_for('dashboard.new_category') }}">新种类</a>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button"
+                               aria-haspopup="true" aria-expanded="false">管理 <span class="caret"></span>
+                                {% if unread_comments or unread_questions %}  <!--  -->
+                                    <span class="badge badge-success">new</span>
+                                {% endif %}
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <ul style="list-style: none">
+                                    <li><a class="dropdown-item" href="{{ url_for('dashboard.manage_users') }}">管理用户</a></li>
+                                    <li><a class="dropdown-item" href="{{ url_for('dashboard.manage_category') }}">管理类别</a></li>
+                                    <li>
+                                        <a class="dropdown-item" href="{{ url_for('dashboard.manage_questions') }}">管理问题
+                                        {% if unread_questions %}
+                                            <span class="badge badge-success">{{ unread_questions }}</span>
+                                        {% endif %}
+                                         </a>
+                                    </li>
+                                    <li>
+                                     <a class="dropdown-item" href="{{ url_for('dashboard.manage_answers') }}">未审核回答
+                                    {% if unread_answers %}
+                                        <span class="badge badge-success">{{ unread_answers }}</span>
+                                    {% endif %}
+                                    </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                         <li><a href="{{ url_for('dashboard.settings') }}">设置</a></li>
+            <li><a href="{{ url_for('auth.logout', next=request.full_path) }}">{{ current_user.name }} 登出</a></li>
             {% endif %}
 		</ul>
 	</div>
@@ -44,16 +92,17 @@
 
 <main class="container">
     {% for message in get_flashed_messages(with_categories=True) %}
-        <div class="alert alert-{{ message[0] }}" role="alert">
+        <div class="alert alert-{{ message[0] }} alert-info" role="alert">
             <button type="button" class="close" data-dismiss="alert">&times;</button>
             {{ message[1] }}
         </div>
     {% endfor %}
     {% block content %}{% endblock content %}
 </main>
-{% block footer %}
-<footer>
 
+
+<footer>
+    {% block footer %}
         <small> &copy; 2019 <a href="https://blog.csdn.net/weixin_44617992/article/details/102926000" title="Written by Sjy">Shao's blog</a> /
 
             <a href="https://github.com/Sugar-Coder/xuexibang.git" title="Fork me on GitHub">GitHub</a> /
